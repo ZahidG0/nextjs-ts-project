@@ -1,69 +1,21 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { MdOutlineSaveAlt } from "react-icons/md";
-
-interface GalleryImage {
-  src: string;
-  name: string;
-}
-
-const galleryImages: GalleryImage[] = [
-  { src: "https://api.iconify.design/logos/nextjs.svg", name: "Next.js" },
-  { src: "https://api.iconify.design/logos/react.svg", name: "React" },
-  {
-    src: "https://api.iconify.design/logos/typescript-icon.svg",
-    name: "TypeScript",
-  },
-  {
-    src: "https://api.iconify.design/logos/tailwindcss-icon.svg",
-    name: "Tailwind CSS",
-  },
-  { src: "https://api.iconify.design/logos/nodejs-icon.svg", name: "Node.js" },
-  {
-    src: "https://api.iconify.design/logos/javascript.svg",
-    name: "JavaScript",
-  },
-  { src: "https://api.iconify.design/logos/html-5.svg", name: "HTML5" },
-  { src: "https://api.iconify.design/logos/css-3.svg", name: "CSS3" },
-  { src: "https://api.iconify.design/logos/git-icon.svg", name: "Git" },
-  { src: "https://api.iconify.design/logos/github-icon.svg", name: "GitHub" },
-  {
-    src: "https://api.iconify.design/logos/visual-studio-code.svg",
-    name: "VS Code",
-  },
-  { src: "https://api.iconify.design/logos/figma.svg", name: "Figma" },
-  {
-    src: "https://api.iconify.design/logos/storybook-icon.svg",
-    name: "Storybook",
-  },
-  { src: "https://api.iconify.design/logos/jest.svg", name: "Jest" },
-  { src: "https://api.iconify.design/logos/cypress-icon.svg", name: "Cypress" },
-  { src: "https://api.iconify.design/logos/mongodb.svg", name: "MongoDB" },
-  { src: "https://api.iconify.design/logos/mysql.svg", name: "MySQL" },
-  {
-    src: "https://api.iconify.design/logos/postgresql.svg",
-    name: "PostgreSQL",
-  },
-  { src: "https://api.iconify.design/logos/redis.svg", name: "Redis" },
-  { src: "https://api.iconify.design/logos/docker-icon.svg", name: "Docker" },
-  {
-    src: "https://api.iconify.design/logos/kubernetes.svg",
-    name: "Kubernetes",
-  },
-  { src: "https://api.iconify.design/logos/aws.svg", name: "AWS" },
-  {
-    src: "https://api.iconify.design/logos/google-cloud.svg",
-    name: "Google Cloud",
-  },
-  { src: "https://api.iconify.design/logos/azure.svg", name: "Azure" },
-];
+import { galleryImages } from "./gallery-data";
+import { useSearch } from "../SearchProvider";
 
 const Gallery: React.FC = () => {
+  const { searchQuery } = useSearch();
+
+  const filteredImages = galleryImages.filter((image) =>
+    image.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <figure className="gallery-container p-6 bg-gray-300 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Gallery</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {galleryImages.map((image, index) => (
+        {filteredImages.map((image, index) => (
           <div
             key={index}
             className="bg-white hover:scale-103 transition-all duration-300 ease-in-out hover:shadow-lg pt-4 rounded-lg shadow-md"
